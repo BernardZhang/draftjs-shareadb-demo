@@ -1,5 +1,9 @@
+import ReconnectingWebSocket from 'reconnecting-websocket';
 var sharedb = require('sharedb/lib/client');
-var ReconnectingWebSocket = require('reconnecting-websocket');
+// var ReconnectingWebSocket = require('reconnecting-websocket');
+
+
+console.log('ReconnectingWebSocket', ReconnectingWebSocket);
 // Expose a singleton WebSocket connection to ShareDB server
 // Authentication by query parameter
 // TODO: use secure web socket wss:// for encrypted
@@ -8,6 +12,9 @@ var ReconnectingWebSocket = require('reconnecting-websocket');
 //var socket = new WebSocket('ws://' + window.location.host +'?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImR1bW15X2lkIiwiaWF0IjoxNTMzMDExNDM5fQ.sJU3LnBqG-AQW-fNqBq-2g07vyICp527AmudcNWJT8c');
 var socket = new ReconnectingWebSocket('ws://' + window.location.host +'?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImR1bW15X2lkIiwiaWF0IjoxNTMzMDExNDM5fQ.sJU3LnBqG-AQW-fNqBq-2g07vyICp527AmudcNWJT8c');
 var connection = new sharedb.Connection(socket);
-module.exports = connection;
+
+// module.exports = connection;
+
+export default connection;
 
 // wscat --connect ws://localhost:3338?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImR1bW15X2lkIiwiaWF0IjoxNTMzMDExNDM5fQ.sJU3LnBqG-AQW-fNqBq-2g07vyICp527AmudcNWJT8c

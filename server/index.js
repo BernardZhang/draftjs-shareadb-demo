@@ -97,7 +97,7 @@ share.use('query', (request, callback) => {
         const db1 = client1.db(database);
         const { _id } = request.query;
         const page1 = db1.collection('pages')
-            .find({ _id: ObjectId(_id) })
+            .find({ _id })
             .toArray(function (err1, docs1) {
                 if (docs1.length >= 1) {
                     // Can I access, check permission??
@@ -107,11 +107,11 @@ share.use('query', (request, callback) => {
                     MongoClient.connect(host, function (err2, client2) {
                         const db2 = client2.db('conode');
                         const page2 = db2.collection('pages')
-                            .find({ _id: ObjectId(request.query._id) })
+                            .find({ _id })
                             .toArray(function (err2, docs2) {
                                 // docs2[0].richText = JSON.parse(docs2[0].richText);
                                 share.connect().get('pages', _id)
-                                    .create(docs2[0], (err) => {
+                                    .create(docs2[0] || { _id, richText: {} }, (err) => {
                                         callback();
                                     });
                             });
@@ -125,15 +125,15 @@ share.use('afterSubmit', (request, callback) => {
     // eval(pry.it)
     callback()
     // return console.log('AFTERSUBMIT');
-    MongoClient.connect('mongodb://localhost:27017', function (err1, client1) {
+    MongoClient.connect(host, function (err1, client1) {
         const db1 = client1.db('test-collab');
-        const page1 = db1.collection('pages')
+        db1.collection('pages')
             .find({ _id: request.id })
             .toArray(function (err1, docs1) {
                 console.log('Put Page in Conode Database');
                 // console.log(JSON.stringify(docs1));
                 // console.log(request.id);
-                MongoClient.connect('mongodb://localhost:27017', function (err2, client2) {
+                MongoClient.connect(host, function (err2, client2) {
                     const db2 = client2.db('conode');
                     const { collaborators, richText, plainText, tagIds, title, updatedAt, linkedItems, createdAt, ownerId } = docs1[0]
                     const newPage = {
@@ -144,7 +144,7 @@ share.use('afterSubmit', (request, callback) => {
                         linkedItems,
                         createdAt,
                         ownerId,
-                        richText: JSON.stringify(richText),
+                        richText: richText,
                         collaborators
                     }
                     // if collaborators is now empty, break down all connections!

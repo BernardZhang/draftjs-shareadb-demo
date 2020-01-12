@@ -1,5 +1,5 @@
 var React = require('react');
-var connection = require('./connection');
+var connection = require('./connection').default;
 var jsonOtDiff = require('json0-ot-diff');
 var _ = require('lodash');
 
@@ -165,7 +165,11 @@ class RichEditorExample extends React.Component {
       comp.query.results[0].on('op', update);
       console.log('Incoming!');
       console.log(JSON.stringify(comp.query.results[0].data, null, " "));
-      comp.setState({ editorState: EditorState.createWithContent(convertFromRaw(comp.query.results[0].data.richText)), blockOutgoing: true });
+      const richText = _.get(comp.query.results[0].data, 'richText');
+      comp.setState({
+        editorState: richText ? EditorState.createWithContent(convertFromRaw(richText)) : this.state.editorState,
+        blockOutgoing: true
+      });
       comp.connected = true;
     });
     // comp.query.on('changed', update);
@@ -175,9 +179,10 @@ class RichEditorExample extends React.Component {
       console.log(JSON.stringify(comp.state.editorState.getSelection()));
       console.log('Incoming!');
       console.log(JSON.stringify(comp.query.results[0].data, null, "  "));
+      const richText = _.get(comp.query.results[0].data, "richText");
       // manage selection
       comp.setState({ 
-          editorState: EditorState.createWithContent(convertFromRaw(comp.query.results[0].data.richText)), 
+          editorState: richText ? EditorState.createWithContent(convertFromRaw(richText)) : EditorState.createEmpty(), 
           blockOutgoing: true  
       });
       comp.connected = true;
