@@ -16,7 +16,7 @@
     "connect": "^3.4.1",
     "deep-diff": "^1.0.1",
     "draft-js": "^0.10.5",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "express-jwt": "^5.3.1",
     "json-diff": "^0.5.2",
     "json0-ot-diff": "^1.0.3",
