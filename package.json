@@ -21,7 +21,7 @@
     "json-diff": "^0.5.2",
     "json0-ot-diff": "^1.0.3",
     "jsondiffpatch": "^0.3.11",
-    "jsonwebtoken": "^8.3.0",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.10",
     "mongodb": "^3.1.1",
     "pryjs": "^1.0.3",
